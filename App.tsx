@@ -5,6 +5,20 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 
+import { NativeBaseProvider, Text, Box } from 'native-base';
+import LoginScreen from './screens/LoginScreen';
+import { extendTheme } from 'native-base';
+
+const newColorTheme = {
+  brand: {
+    900: '#8287af',
+    800: '#7c83db',
+    700: '#b3bef6',
+  },
+};
+
+const theme = extendTheme({ colors: newColorTheme });
+
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
@@ -13,10 +27,10 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
+
+      <NativeBaseProvider theme={theme}>
+        < Navigation colorScheme={colorScheme} />
+      </NativeBaseProvider>
     );
   }
 }
