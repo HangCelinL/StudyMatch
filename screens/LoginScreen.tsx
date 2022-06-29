@@ -1,55 +1,75 @@
+
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
+import { RootStackParamList, RootStackScreenProps } from '../types';
 
-import * as WebBrowser from 'expo-web-browser';
 
-import Colors from '../constants/Colors';
 import { MonoText } from '../components/StyledText';
-import React from 'react';
-import { Box, Icon, Input, Stack } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Box, Center, FormControl, Heading, HStack, Icon, Input, Link, Stack, VStack } from 'native-base';
 import { Button } from "native-base";
+import { StackScreenProps } from '@react-navigation/stack';
 
-export default function LoginScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+import { getAuth, } from 'firebase/auth';
+import { signInWithGoogle, logInWithEmailAndPassword } from '../firebase';
+import { useState } from 'react';
 
-  const [show, setShow] = React.useState(false);
+export default function LogInScreen({ navigation }: RootStackScreenProps<'SignIn'>) {
+
+  const auth = getAuth();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   return (
-    <View style={styles1.container}>
-      <Text style={styles1.title}>Welcome to StudyMatch!</Text>
-      <View style={styles1.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <View>
+    <Center w="100%">
+      <Box safeArea p="2" py="8" w="90%" maxW="290">
+        <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{
+          color: "warmGray.50"
+        }}>
+          Welcome to StudyMatch!
+        </Heading>
+        <Heading mt="1" _dark={{
+          color: "warmGray.200"
+        }} color="coolGray.600" fontWeight="medium" size="xs">
+          Sign in to continue
+        </Heading>
 
-        <View style={styles2.getStartedContainer}>
-          <Text
-            style={styles2.getStartedText}
-            lightColor="rgba(0,0,0,0.8)"
-            darkColor="rgba(255,255,255,0.8)">
-            Log in
-          </Text>
-
-          <Stack space={4} w="100%" alignItems="center">
-            <Input w={{
-              base: "100%",
-              md: "0%"
-            }} InputLeftElement={<Icon as={<MaterialIcons name="person" />} size={5} ml="2" color="muted.400" />} placeholder="Name" />
-            <Input w={{
-              base: "100%",
-              md: "0%"
-            }} type={show ? "text" : "password"} InputRightElement={<Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" onPress={() => setShow(!show)} />} placeholder="Password" />
-          </Stack>
-
-          <Text>
-            <Box alignItems="center">
-              <Button onPress={() => console.log("hello world")}>Log in</Button>
-            </Box>;
-          </Text>
-
-        </View>
-      </View>
-    </View>
+        <VStack space={3} mt="5">
+          <FormControl>
+            <FormControl.Label>Email ID</FormControl.Label>
+            <Input value={email} onChangeText={(text) => setEmail(text)} />
+          </FormControl>
+          <FormControl>
+            <FormControl.Label>Password</FormControl.Label>
+            <Input type="password" value={password} onChangeText={(text) => setPassword(text)} />
+            <Link _text={{
+              fontSize: "xs",
+              fontWeight: "500",
+              color: "indigo.500"
+            }} alignSelf="flex-end" mt="1">
+              Forgot Password?
+            </Link>
+          </FormControl>
+          <Button mt="2" colorScheme="indigo" onPress={() => {
+            console.log("hei", email);
+            logInWithEmailAndPassword(email.toLowerCase(), password)
+          }}>
+            Sign in
+          </Button>
+          <HStack mt="6" justifyContent="center">
+            <Link onPress={() => {
+              navigation.navigate('SignUp')
+            }} _text={{
+              color: "indigo.500",
+              fontWeight: "medium",
+              fontSize: "sm"
+            }} >
+              Sign Up
+            </Link>
+          </HStack>
+        </VStack>
+      </Box>
+    </Center>
   );
 }
 
