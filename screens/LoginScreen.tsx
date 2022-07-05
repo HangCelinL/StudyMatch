@@ -1,24 +1,21 @@
 
 import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Themed';
 import { RootStackParamList, RootStackScreenProps } from '../types';
 
-
-import { MonoText } from '../components/StyledText';
 import { Box, Center, FormControl, Heading, HStack, Icon, Input, Link, Stack, VStack } from 'native-base';
 import { Button } from "native-base";
-import { StackScreenProps } from '@react-navigation/stack';
 
 import { getAuth, } from 'firebase/auth';
-import { signInWithGoogle, logInWithEmailAndPassword } from '../firebase';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { logInWithEmailAndPassword, signInWithEmailAndPassword, auth } from '../firebase';
+import { AuthContext } from '../context/AuthContext';
 
 export default function LogInScreen({ navigation }: RootStackScreenProps<'SignIn'>) {
 
-  const auth = getAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  //const { signIn } = useContext(AuthContext);
 
   return (
     <Center w="100%">
@@ -52,7 +49,9 @@ export default function LogInScreen({ navigation }: RootStackScreenProps<'SignIn
           </FormControl>
           <Button mt="2" colorScheme="indigo" onPress={() => {
             console.log("hei", email);
-            logInWithEmailAndPassword(email.toLowerCase(), password)
+            //signInWithEmailAndPassword(auth, email.toLowerCase(), password);
+            logInWithEmailAndPassword(email.toLowerCase(), password);
+            //navigation.navigate('Home');
           }}>
             Sign in
           </Button>

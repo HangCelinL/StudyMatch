@@ -17,6 +17,8 @@ import {
   addDoc,
 } from "firebase/firestore";
 import firebaseConfig from "./config/FirebaseConfig"
+//const functions = require('firebase-functions');
+//const admin = require('firebase-admin');
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -82,11 +84,30 @@ const logout = () => {
   signOut(auth);
 };
 
+/**
+ * Gets all the users (1000 MAX) from Firebase auth.
+ *
+ * @param {Object} req Express Request Object.
+ * @param {Object} res Express Response Object
+ */
+/* const getAllUsers = (req, res) => {
+
+  auth.listUsers(maxResults).then((userRecords) => {
+    userRecords.users.forEach((user) => console.log(user.toJSON()));
+    res.end('Retrieved users list successfully.');
+  }).catch((error) => console.log(error));
+};
+
+module.exports = {
+  api: functions.https.onRequest(getAllUsers),
+}; */
+
 export {
   auth,
   db,
   signInWithGoogle,
   logInWithEmailAndPassword,
+  signInWithEmailAndPassword,
   registerWithEmailAndPassword,
   sendPasswordReset,
   logout,
