@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { User } from "../types/user";
 import { useAuth } from "../contexts/AuthProvider";
 
-export default function ProfileScreen({ navigation }: RootStackScreenProps<'Profile'>) {
+export default function EditProfileScreen({ navigation }: RootStackScreenProps<'Profile'>) {
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -31,7 +31,8 @@ export default function ProfileScreen({ navigation }: RootStackScreenProps<'Prof
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const uid = user?.uid;
+
+
 
   useEffect(() => {
     if (user === null) {

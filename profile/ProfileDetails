@@ -1,0 +1,28 @@
+/* import React, { FC } from 'react';
+
+interface ProfileProps {
+  name: string | undefined;
+  email: string | undefined;
+  id: string | undefined;
+  age: string | undefined;
+  description: string | undefined;
+  courses: string[];
+}
+
+const CardDetail: FC<ProfileProps> = ({
+  name,
+  email,
+  id,
+  age,
+  description,
+  courses
+
+}) => (
+  return (
+    
+  )
+ 
+);
+
+export default CardDetail;
+ */

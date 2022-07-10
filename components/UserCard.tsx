@@ -45,8 +45,6 @@ const CardOverview: React.FC<CardProps> = ({ items })
   const handleCloseLike = () => setOpenLike(false);
 }; */
 
-// const { user } = useAuth();
-
 interface UserCardProps {
   name: string;
   description: string;
@@ -61,9 +59,6 @@ const UserCard: FC<UserCardProps> = ({
   courses
 
 }) => {
-  const [openLike, setOpenLike] = React.useState(false);
-  const handleOpenLike = () => setOpenLike(true);
-  const handleCloseLike = () => setOpenLike(false);
 
   // const { user } = getAuth();
   return (

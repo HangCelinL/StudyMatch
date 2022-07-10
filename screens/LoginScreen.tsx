@@ -6,16 +6,25 @@ import { RootStackParamList, RootStackScreenProps } from '../types';
 import { Box, Center, FormControl, Heading, HStack, Icon, Input, Link, Stack, VStack } from 'native-base';
 import { Button } from "native-base";
 
-import { getAuth, } from 'firebase/auth';
+import { getAuth, updateCurrentUser, } from 'firebase/auth';
 import { useContext, useState } from 'react';
-import { logInWithEmailAndPassword, signInWithEmailAndPassword, auth } from '../firebase';
-import { AuthContext } from '../context/AuthContext';
+import { logInWithEmailAndPassword, signInWithEmailAndPassword, auth, signInWithGoogle } from '../firebase';
+import { useAuth } from '../contexts/AuthProvider';
 
 export default function LogInScreen({ navigation }: RootStackScreenProps<'SignIn'>) {
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   //const { signIn } = useContext(AuthContext);
+  const { login, user } = useAuth();
+
+  const handleLogin = () => {
+    login(email, password);
+    if (user == null) {
+      return;
+    }
+  };
+
 
   return (
     <Center w="100%">
@@ -48,9 +57,10 @@ export default function LogInScreen({ navigation }: RootStackScreenProps<'SignIn
             </Link>
           </FormControl>
           <Button mt="2" colorScheme="indigo" onPress={() => {
-            console.log("hei", email);
-            //signInWithEmailAndPassword(auth, email.toLowerCase(), password);
-            logInWithEmailAndPassword(email.toLowerCase(), password);
+            console.log("hei", user);
+            login(email, password);
+            console.log("hei", user);
+            //logInWithEmailAndPassword(email.toLowerCase(), password);
             //navigation.navigate('Home');
           }}>
             Sign in

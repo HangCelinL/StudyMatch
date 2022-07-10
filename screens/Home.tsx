@@ -24,14 +24,17 @@ import UserCard from '../components/UserCard';
 import { User } from '../types/user';
 import AppBar from '../components/Appbar';
 import { MaterialIcons } from '@expo/vector-icons';
+import { RootStackScreenProps } from '../types';
+import ProfileScreen from './ProfileScreen';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }: RootStackScreenProps<'Home'>) {
 
   const handleLogout = () => {
     logout();
   }
 
   const [users, setUsers] = useState<User[]>();
+
 
   return (
     <View>
@@ -41,7 +44,7 @@ export default function HomeScreen() {
         <VStack space={4} alignItems="center">
           {users?.map((user: User) => (
             <UserCard
-              name={user.firstName}
+              name={user.name}
               description={user.description}
               id={user.id}
               courses={user.courses}
@@ -85,6 +88,10 @@ export default function HomeScreen() {
 
       <Button onPress={handleLogout}>
         LogOut
+      </Button>
+
+      <Button onPress={() => { navigation.navigate("Profile") }}>
+        Profile
       </Button>
 
     </View>

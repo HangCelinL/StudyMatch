@@ -1,9 +1,8 @@
 export type User = {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   id: string;
-  birthday: Date;
+  age: string;
   likedUsers: User[];
   likedByUsers: User[];
   description: string;

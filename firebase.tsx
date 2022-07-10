@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
+  User,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -15,8 +16,12 @@ import {
   collection,
   where,
   addDoc,
+  doc,
+  getDoc,
+  setDoc,
 } from "firebase/firestore";
 import firebaseConfig from "./config/FirebaseConfig"
+//import { User } from "./types/user";
 //const functions = require('firebase-functions');
 //const admin = require('firebase-admin');
 
@@ -39,22 +44,23 @@ const signInWithGoogle = async () => {
         email: user.email,
       });
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
 };
 
-const logInWithEmailAndPassword = async (email, password) => {
+const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-  } catch (err) {
+
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
 };
 
-const registerWithEmailAndPassword = async (name, email, password) => {
+const registerWithEmailAndPassword = async (name: string, email: string, password: string) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
@@ -64,17 +70,17 @@ const registerWithEmailAndPassword = async (name, email, password) => {
       authProvider: "local",
       email,
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
 };
 
-const sendPasswordReset = async (email) => {
+const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email);
     alert("Password reset link sent!");
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     alert(err.message);
   }
@@ -82,6 +88,27 @@ const sendPasswordReset = async (email) => {
 
 const logout = () => {
   signOut(auth);
+};
+
+//skal jo hente fra authentication da
+export const getUserByID = async (id: any) => {
+  const ref = doc(db, 'Users', id);
+  const data = await getDoc(ref);
+  if (data.exists()) {
+    const user = data.data();
+    return user as User;
+  }
+};
+
+export const createUser = async (
+  name: string,
+  email: string,
+  id: string
+) => {
+  await setDoc(doc(db, 'Users', id), {
+    name,
+    email,
+  });
 };
 
 /**
